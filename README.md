@@ -1,10 +1,10 @@
 # mcv-m1-code
 
-Master Computer Vision, Module M1: Distributed code
+Master Computer Vision, Module M1 distributed code
 
 
 ## test_submission.py: 
-- This script allows to test your submission. FOr each query set, you can submit up to two different methods. You must submit your results to:
+- This script allows to test your submission. For each query set, you can submit up to two different methods. You must submit your results to:
 
 ```
 /home/dlcv0X/m1-results/weekY/qstW/methodZ
