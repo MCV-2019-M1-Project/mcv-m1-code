@@ -26,4 +26,4 @@ The script also shows how to compute the MAP@k metric and to compute Precision, 
 
 
 ## utils/
-- Forder with some useful scripts
+- Folder with some useful scripts
