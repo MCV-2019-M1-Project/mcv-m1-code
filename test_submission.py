@@ -9,7 +9,7 @@ Usage:
   test_submission.py <weekNumber> <teamNumber> <winEval> <querySet> [--testDir=<td>] 
   test_submission.py -h | --help
 Options:
-  --testDir=<td>        Directory with the test images & masks [default: /home/mcv00/DataSet1/fake_test]
+  --testDir=<td>        Directory with the test images & masks [default: /home/dlcv/DataSet/fake_test]
 """
 
 
