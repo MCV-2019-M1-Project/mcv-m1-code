@@ -90,7 +90,7 @@ if __name__ == '__main__':
         print ('Team {}, method: {}, map@10: {:.3f}'.format(team, method, score))
 
         
-        if result_masks_num != te6st_masks_num:
+        if result_masks_num != test_masks_num:
             print ('Method {} : {} result files found but there are {} test files'.format(method, result_masks_num, test_masks_num), file = sys.stderr) 
 
 
