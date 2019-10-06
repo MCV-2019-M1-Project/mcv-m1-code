@@ -43,7 +43,7 @@ if __name__ == '__main__':
 
     
     # This folder contains your results: mask imaged and window list pkl files. Do not change this.
-    results_dir = '/home/dlcv{:02d}/m1-results/week{}/qst{}'.format(team, week, query_set)
+    results_dir = '/home/dlcv{:02d}/m1-results/week{}/QST{}'.format(team, week, query_set)
 
     # Load mask names in the given directory
     test_masks     = sorted(fnmatch.filter(os.listdir(test_dir), '*.png'))
@@ -81,7 +81,7 @@ if __name__ == '__main__':
         result_masks_num = len(result_masks)
 
         # Correspondences Hypotesis file
-        hypo_name = '{}/{}/hypo_corresps.pkl'.format(results_dir, method)
+        hypo_name = '{}/{}/result.pkl'.format(results_dir, method)
         with open(hypo_name, 'rb') as fd:
             hypo = pickle.load(fd)
 
@@ -90,7 +90,7 @@ if __name__ == '__main__':
         print ('Team {}, method: {}, map@10: {:.3f}'.format(team, method, score))
 
         
-        if result_masks_num != test_masks_num:
+        if result_masks_num != te6st_masks_num:
             print ('Method {} : {} result files found but there are {} test files'.format(method, result_masks_num, test_masks_num), file = sys.stderr) 
 
 
