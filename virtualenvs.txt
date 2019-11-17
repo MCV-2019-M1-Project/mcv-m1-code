@@ -24,6 +24,7 @@ pip install ml_metrics
 
 # Optional
 pip install opencv-contrib-python
+pip install pytesseract
 ...
 
 5. Get help about virtualenvs:
