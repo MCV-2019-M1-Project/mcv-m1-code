@@ -19,11 +19,41 @@ import os
 import sys
 import pickle
 import imageio
+import numpy as np
 from docopt import docopt
-from ml_metrics import mapk
+from ml_metrics import mapk, apk
 from sklearn.metrics import jaccard_similarity_score
 #from evaluation.load_annotations import load_annotations
 import evaluation.evaluation_funcs as evalf
+
+
+
+# Compute the depth of a list (of lists (of lists ...) ...)
+# Empty list not allowed!!
+#https://stackoverflow.com/questions/6039103/counting-depth-or-the-deepest-level-a-nested-list-goes-to
+list_depth = lambda L: isinstance(L, list) and max(map(list_depth, L))+1
+
+def add_list_level(input_list):
+    out = []
+    for ll in input_list:
+        tmp = []
+        for q in ll:
+            tmp.append([q])
+        out.append(tmp)
+    return (out)
+
+def compute_mapk(gt,hypo,k_val):
+    if list_depth(hypo) == 2:
+        hypo = add_list_level(hypo.copy())
+    apk_list = []
+    for ii,query in enumerate(gt):
+        for jj,sq in enumerate(query):
+            apk_val = 0.0
+            if len(hypo[ii]) > jj:
+                apk_val = apk([sq],hypo[ii][jj], k_val)
+            apk_list.append(apk_val)
+            
+    return np.mean(apk_list)
 
 
 if __name__ == '__main__':
@@ -56,7 +86,6 @@ if __name__ == '__main__':
         gtquery_list = pickle.load(gtfd)
 
 
-
     print (results_dir)
 
 
@@ -85,12 +114,17 @@ if __name__ == '__main__':
         with open(hypo_name, 'rb') as fd:
             hypo = pickle.load(fd)
 
-        score = mapk(gtquery_list, hypo, k_val)
+        score = compute_mapk(gtquery_list, hypo, k_val)
 
         print ('Team {}, method: {}, map@10: {:.3f}'.format(team, method, score))
 
-        
-        if result_masks_num != test_masks_num:
+        if week > 1:
+            # Text boxes file
+            text_box_name = '{}/{}/text_boxes.pkl'.format(results_dir, method)
+            with open(text_box_name, 'rb') as fd:
+                text_box = pickle.load(fd)
+
+        if query_set == 2 and result_masks_num != test_masks_num:
             print ('Method {} : {} result files found but there are {} test files'.format(method, result_masks_num, test_masks_num), file = sys.stderr) 
 
 
@@ -115,6 +149,7 @@ if __name__ == '__main__':
 
             if pixelAnnotation.shape != pixelCandidates.shape:
                 print ('Error: hypothesis and  GT masks do not match!')
+                print (pixelAnnotation.shape, pixelCandidates.shape)
                 sys.exit()
 
             [localPixelTP, localPixelFP, localPixelFN, localPixelTN] = evalf.performance_accumulation_pixel(pixelCandidates, pixelAnnotation)
